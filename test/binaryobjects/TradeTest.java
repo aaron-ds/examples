@@ -1,11 +1,11 @@
 package binaryobjects;
 
 import java.io.*;
-import java.text.DateFormat;
+import java.nio.file.Files;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class TradeTest {
@@ -13,45 +13,31 @@ public class TradeTest {
 
     public static void main(String[] args) throws IOException, ParseException, InterruptedException, ClassNotFoundException {
 
-        List<Trade> trades = new ArrayList<Trade>();
-        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-
-        BufferedReader br = new BufferedReader(new FileReader("/Users/aarondesouza/dev/trade_data.txt"));
-
         System.out.println("----------- Starting to read trades from file -------------");
         long start = System.currentTimeMillis();
-        String line;
-        while ((line = br.readLine()) != null) {
-            String[] tokens = line.split(",");
-            Trade trade = new BinaryTrade();
-            trade.setId(Long.parseLong(tokens[0]));
-            trade.setTradeDate(df.parse(tokens[1]));
-            trade.setBuySell(tokens[2]);
-            trade.setBaseCurrency(tokens[3]);
-            trade.setAmount(Long.parseLong(tokens[4]));
-            trade.setRate(Double.parseDouble(tokens[5]));
-            trade.setCounterCurrency(tokens[6]);
-            trade.setContraAmount(Long.parseLong(tokens[7]));
-            trade.setSettlementDate(df.parse(tokens[8]));
 
-            trades.add(trade);
-        }
+        List<Trade> trades = Files.lines(new File("/Users/aarondesouza/dev/trade_data.txt").toPath())
+                .map(BinaryTrade::parseTrade)
+                .filter(trade -> trade != null)
+                .collect(Collectors.toList());
+
+        System.out.printf("Parsed %d trades%n", trades.size());
 
         long end = System.currentTimeMillis();
 
-        System.out.println("time taken to create list was " + (end - start) + "mS");
+        System.out.printf("Time taken to create list was %d mS %n", (end - start));
 
         start = System.currentTimeMillis();
         testSerialization(trades);
         end = System.currentTimeMillis();
 
-        System.out.println("Time taken to serialise trades was " + (end - start) + "mS");
+        System.out.printf("Time taken to serialise trades was %d mS %n", (end - start));
 
         start = System.currentTimeMillis();
         testBatchSerialization(trades);
         end = System.currentTimeMillis();
 
-        System.out.println("Time taken to batch serialise trades was " + (end - start) + "mS");
+        System.out.printf("Time taken to batch serialise trades was %d mS %n ", (end - start));
 
     }
 

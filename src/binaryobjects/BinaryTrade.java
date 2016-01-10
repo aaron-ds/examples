@@ -2,6 +2,9 @@ package binaryobjects;
 
 import java.io.Serializable;
 import java.nio.ByteBuffer;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Objects;
@@ -153,6 +156,29 @@ public class BinaryTrade implements Trade, Serializable {
             value += ((long)(data[offset] & 0xFF)) << (i * 8);
         }
         return value;
+    }
+
+    public static Trade parseTrade(String line) {
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+
+
+        String[] tokens = line.split(",");
+        try {
+            Trade trade = new BinaryTrade();
+            trade.setId(Long.parseLong(tokens[0]));
+            trade.setTradeDate(df.parse(tokens[1]));
+            trade.setBuySell(tokens[2]);
+            trade.setBaseCurrency(tokens[3]);
+            trade.setAmount(Long.parseLong(tokens[4]));
+            trade.setRate(Double.parseDouble(tokens[5]));
+            trade.setCounterCurrency(tokens[6]);
+            trade.setContraAmount(Long.parseLong(tokens[7]));
+            trade.setSettlementDate(df.parse(tokens[8]));
+            return trade;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

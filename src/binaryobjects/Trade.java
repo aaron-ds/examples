@@ -1,11 +1,7 @@
 package binaryobjects;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * Created by aarondesouza on 28/12/2015.
- */
 public interface Trade {
 
     long getId();
