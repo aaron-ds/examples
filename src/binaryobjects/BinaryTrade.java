@@ -154,6 +154,7 @@ public class BinaryTrade implements Trade, Serializable {
         for (int i = 0; i < 8; i++, offset++) {
             // get the byte, make it unsigned, cast to a long and the shift it left
             value += ((long)(data[offset] & 0xFF)) << (i * 8);
+            System.out.println(Long.toBinaryString(value));
         }
         return value;
     }
