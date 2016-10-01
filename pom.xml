@@ -46,11 +46,25 @@
             <artifactId>mx4j-tools</artifactId>
             <version>3.0.1</version>
         </dependency>
-
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <version>0.10.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+            <version>3.7.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.agrona</groupId>
+            <artifactId>Agrona</artifactId>
+            <version>0.5.4</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.trove4j</groupId>
+            <artifactId>trove4j</artifactId>
+            <version>3.0.3</version>
         </dependency>
 
 

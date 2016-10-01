@@ -7,7 +7,7 @@ import java.lang.reflect.Field;
 import java.nio.ByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Main {
+public class IpcTest {
     public static void main(String... args) throws IOException {
         for (int i = 0; i < 10; i++)
             doTest();
